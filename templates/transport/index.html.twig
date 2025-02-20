@@ -3,9 +3,10 @@
 {% block title %}Transport index{% endblock %}
 
 {% block body %}
-    <h1>Transport index</h1>
+    <h1 class="mb-4">Transport index</h1>
 
-    <table class="table">
+<div class="card p-4 shadow-lg rounded">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
@@ -25,17 +26,18 @@
                 <td>{{ transport.prix }}</td>
                 <td>{{ transport.disponibilte ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_transport_show', {'id': transport.id}) }}">show</a>
-                    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+                    <a href="{{ path('app_transport_show', {'id': transport.id}) }}" class="btn btn-primary btn-sm">show</a>
+                    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-warning btn-sm">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6" class="text-center">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_transport_new') }}">Create new</a>
+</div>
+    <a href="{{ path('app_transport_new') }}" class="btn btn-success mt-2">Create new</a>
 {% endblock %}

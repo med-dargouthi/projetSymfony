@@ -17,15 +17,15 @@ class Commande
     private ?int $id = null;
 
     /**
-     * @var Collection<int, user>
+     * @var Collection<int, User>
      */
-    #[ORM\OneToMany(targetEntity: user::class, mappedBy: 'commande')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'commande')]
     private Collection $utilisateur_id;
 
     /**
-     * @var Collection<int, menu>
+     * @var Collection<int, Menu>
      */
-    #[ORM\OneToMany(targetEntity: menu::class, mappedBy: 'commande')]
+    #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'commande')]
     private Collection $menu_id;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -76,14 +76,14 @@ class Commande
     }
 
     /**
-     * @return Collection<int, menu>
+     * @return Collection<int, Menu>
      */
     public function getMenuId(): Collection
     {
         return $this->menu_id;
     }
 
-    public function addMenuId(menu $menuId): static
+    public function addMenuId(Menu $menuId): static
     {
         if (!$this->menu_id->contains($menuId)) {
             $this->menu_id->add($menuId);
@@ -93,7 +93,7 @@ class Commande
         return $this;
     }
 
-    public function removeMenuId(menu $menuId): static
+    public function removeMenuId(Menu $menuId): static
     {
         if ($this->menu_id->removeElement($menuId)) {
             // set the owning side to null (unless already changed)

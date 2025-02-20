@@ -14,7 +14,7 @@ class Menu
     private ?int $id = null;
 
     #[ORM\OneToOne(inversedBy: 'menu', cascade: ['persist', 'remove'])]
-    private ?restaurant $restaurant_id = null;
+    private ?Restaurant $restaurant_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $plat = null;
@@ -33,12 +33,12 @@ class Menu
         return $this->id;
     }
 
-    public function getRestaurantId(): ?restaurant
+    public function getRestaurantId(): ?Restaurant
     {
         return $this->restaurant_id;
     }
 
-    public function setRestaurantId(?restaurant $restaurant_id): static
+    public function setRestaurantId(?Restaurant $restaurant_id): static
     {
         $this->restaurant_id = $restaurant_id;
 

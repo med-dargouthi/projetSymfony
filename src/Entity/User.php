@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +30,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, ReservationTransport>
+     */
+    #[ORM\OneToMany(targetEntity: ReservationTransport::class, mappedBy: 'user_id')]
+    private Collection $reservationTransports;
+
+    #[ORM\ManyToOne(inversedBy: 'utilisateur_id')]
+    private ?Commande $commande = null;
+
+    public function __construct()
+    {
+        $this->reservationTransports = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -97,5 +113,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, ReservationTransport>
+     */
+    public function getReservationTransports(): Collection
+    {
+        return $this->reservationTransports;
+    }
+
+    public function addReservationTransport(ReservationTransport $reservationTransport): static
+    {
+        if (!$this->reservationTransports->contains($reservationTransport)) {
+            $this->reservationTransports->add($reservationTransport);
+            $reservationTransport->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationTransport(ReservationTransport $reservationTransport): static
+    {
+        if ($this->reservationTransports->removeElement($reservationTransport)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationTransport->getUserId() === $this) {
+                $reservationTransport->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(?Commande $commande): static
+    {
+        $this->commande = $commande;
+
+        return $this;
     }
 }
